@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      door sprite_0: 6463260932203230456
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      house sprite_0: -9107117211909782450
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

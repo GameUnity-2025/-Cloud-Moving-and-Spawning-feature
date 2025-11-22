@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      blue bird sprite_0: -236771492168545677
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

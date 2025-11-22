@@ -8,7 +8,7 @@ public class character_movement : MonoBehaviour
 
     private SpriteRenderer spriteRendererComponent;
 
-    private float moveSpeed = 5f;
+    private float moveSpeed = 7f;
     private bool canMove = true;
 
     // To determine which direction projectiles are shooting at based on the direction the player is facing

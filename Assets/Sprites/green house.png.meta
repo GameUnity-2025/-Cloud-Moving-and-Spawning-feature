@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      green house_0: 2915214747636579084
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

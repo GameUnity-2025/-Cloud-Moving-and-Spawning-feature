@@ -1,10 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class character_jump_movement : MonoBehaviour
 {
-    private float jumpForce = 4f;
+    private float jumpForce = 5f;
     public LayerMask groundLayer;
     public float groundCheckDistance = 0.1f;
 

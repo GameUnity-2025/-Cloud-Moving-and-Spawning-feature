@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      text_bubble sprite_0: -1238907669429797178
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

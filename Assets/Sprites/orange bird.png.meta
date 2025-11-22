@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      orange bird_0: 1209088725643191036
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

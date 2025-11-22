@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Nyon bird_0: -3848474161481320939
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

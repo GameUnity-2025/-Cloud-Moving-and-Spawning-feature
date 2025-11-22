@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      red bird with bow_0: 5530861104934844534
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
