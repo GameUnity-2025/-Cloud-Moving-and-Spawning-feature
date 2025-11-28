@@ -33,25 +33,20 @@ public class character_jump_movement : MonoBehaviour
         }
     }
 
-    // Checks if the character is in contact with the ground, '\if it 'isGrounded'
+    // Checks if the character is in contact with the ground
     bool IsGrounded()
     {
-        // Get the bounds of the BoxCollider2D
         Bounds bounds = GetComponent<BoxCollider2D>().bounds;
 
-        // Create a ray starting from the bottom center of the bounds
         Ray2D ray = new Ray2D(new Vector2(bounds.center.x, bounds.min.y), Vector2.down);
 
-        // Cast the ray and check if it hits something on the ground layer
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, bounds.size.y / 2f, groundLayer);
 
-        // If the ray hits something on the ground layer, the object is grounded
         return hit.collider != null;
     }
 
     void Jump()
     {
-        // Apply a vertical force to make the character jump
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 
@@ -59,5 +54,14 @@ public class character_jump_movement : MonoBehaviour
     public void ToggleJumpMovement(bool allowMovement)
     {
         canJump = allowMovement;
+    }
+
+    // ✔ HÀM SỬ DỤNG CHO BUTTON UI
+    public void OnJumpButtonClick()
+    {
+        if (IsGrounded() && canJump)
+        {
+            Jump();
+        }
     }
 }

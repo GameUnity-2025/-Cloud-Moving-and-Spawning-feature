@@ -1,27 +1,37 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class villagers_NPC_interaction : MonoBehaviour
 {
-    public string interactButtonName = "talk_text"; // Set this to the name of your interact button GameObject
-    public float interactionRange = 1f; // Adjust this value based on your desired range
+    [Header("Interact Button (UI)")]
+    public string interactButtonName = "talk_text";
+    public float interactionRange = 1f;
 
-    private GameObject interactButton; // Reference to the UI interact button GameObject
+    private GameObject interactButton;
 
-
-    // Dialogue GameObject references
+    [Header("Dialogue Objects")]
     public string textBubbleName = "text_bubble sprite_0";
     public string villager_dialogue_one_name = "dialogueOne_text";
     public string villager_dialogue_two_name = "dialogueTwo_text";
+
     private GameObject text_bubble;
     private GameObject villager_dialogue_one;
     private GameObject villager_dialogue_two;
 
+    private GameObject player;
+    private character_movement movementScript;
+    private character_jump_movement jumpScript;
 
-    // Start is called before the first frame update
+
     void Start()
     {
+        // Find player reference
+        player = GameObject.FindGameObjectWithTag("Player");
+        movementScript = player.GetComponent<character_movement>();
+        jumpScript = player.GetComponent<character_jump_movement>();
+
+        // Find dialogue UI objects
         text_bubble = GameObject.Find(textBubbleName);
         villager_dialogue_one = GameObject.Find(villager_dialogue_one_name);
         villager_dialogue_two = GameObject.Find(villager_dialogue_two_name);
@@ -30,87 +40,49 @@ public class villagers_NPC_interaction : MonoBehaviour
         villager_dialogue_one.SetActive(false);
         villager_dialogue_two.SetActive(false);
 
-        // Find the interact button GameObjectusing its name
+        // Find interact UI button
         interactButton = GameObject.Find(interactButtonName);
 
         if (interactButton == null)
         {
-            Debug.LogError("Interact button not found. Make sure to set the correct name.");
+            Debug.LogError("Interact button not found! Check name in inspector.");
         }
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         CheckPlayerDistance();
-    }
 
-
-    void CheckPlayerDistance()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        character_movement characterMovementVariable = player.GetComponent<character_movement>();
-        character_jump_movement characterJumpMovementVariable = player.GetComponent<character_jump_movement>();
-
-
-        //Trigger feature:
-        if (player != null)
+        // PC input (phím I)
+        if (Input.GetKeyDown(KeyCode.I) && PlayerInRange())
         {
-            float distance = Vector2.Distance(transform.position, player.transform.position);
-
-            if (distance <= interactionRange)
-            {
-                ShowInteractButton();
-
-
-                // Dialogue features:
-                // Allowing interaction if 
-                if (Input.GetKeyDown(KeyCode.I))
-                {
-
-
-                    // Locking character horizontal movement feature:
-                    if (characterMovementVariable != null)
-                    {
-                        // Halt the character's movement
-                        characterMovementVariable.ToggleMovement(false);
-                    }
-
-                    // Locking character jump movement feature:
-                    if (characterJumpMovementVariable != null)
-                    {
-                        // Halt the character's movement
-                        characterJumpMovementVariable.ToggleJumpMovement(false);
-                    }
-
-
-                    if (!text_bubble.activeSelf && !villager_dialogue_one.activeSelf && !villager_dialogue_two.activeSelf)
-                    {
-                        StartDialogue();
-                    }
-                    else if (text_bubble.activeSelf && villager_dialogue_one.activeSelf && !villager_dialogue_two.activeSelf)
-                    {
-                        ContinueDialogue();
-                    }
-                    else if (text_bubble.activeSelf && !villager_dialogue_one.activeSelf && villager_dialogue_two.activeSelf)
-                    {
-                        EndDialogue();
-                        characterMovementVariable.ToggleMovement(true);
-                        characterJumpMovementVariable.ToggleJumpMovement(true);
-                    }
-                }
-
-
-            }
-            else
-            {
-                HideInteractButton();
-            }
+            OnTalkButtonPressed();
         }
     }
 
+
+    // Check distance
+    void CheckPlayerDistance()
+    {
+        if (PlayerInRange())
+        {
+            ShowInteractButton();
+        }
+        else
+        {
+            HideInteractButton();
+        }
+    }
+
+    bool PlayerInRange()
+    {
+        float distance = Vector2.Distance(transform.position, player.transform.position);
+        return distance <= interactionRange;
+    }
+
+
+    // UI button active when close
     void ShowInteractButton()
     {
         interactButton.SetActive(true);
@@ -118,26 +90,51 @@ public class villagers_NPC_interaction : MonoBehaviour
 
     void HideInteractButton()
     {
-
         interactButton.SetActive(false);
-
     }
 
-    // Call this method for the first dialogue
+
+    // MOBILE + PC both call this
+    public void OnTalkButtonPressed()
+    {
+        if (!PlayerInRange()) return;
+
+        // Lock movement while talking
+        movementScript.ToggleMovement(false);
+        jumpScript.ToggleJumpMovement(false);
+
+        // Start → Continue → End
+        if (!text_bubble.activeSelf && !villager_dialogue_one.activeSelf && !villager_dialogue_two.activeSelf)
+        {
+            StartDialogue();
+        }
+        else if (text_bubble.activeSelf && villager_dialogue_one.activeSelf)
+        {
+            ContinueDialogue();
+        }
+        else if (text_bubble.activeSelf && villager_dialogue_two.activeSelf)
+        {
+            EndDialogue();
+
+            // Unlock movement
+            movementScript.ToggleMovement(true);
+            jumpScript.ToggleJumpMovement(true);
+        }
+    }
+
+
     void StartDialogue()
     {
         text_bubble.SetActive(true);
         villager_dialogue_one.SetActive(true);
     }
 
-    // Call this method when the first dialogue is complete
     void ContinueDialogue()
     {
         villager_dialogue_one.SetActive(false);
         villager_dialogue_two.SetActive(true);
     }
 
-    // Call this method when the second dialogue is complete
     void EndDialogue()
     {
         villager_dialogue_two.SetActive(false);

@@ -80,6 +80,18 @@ public class firing_projectiles : MonoBehaviour
         StartCoroutine(DestroyProjectileAfterDistance(projectile));
     }
 
+    // Hàm bắn khi nhấn nút trên UI (OnClick)
+    public void OnFireButtonClick()
+    {
+        // Kiểm tra có thể bắn được hay không (nếu đã hoàn thành tương tác và thời gian cooldown đã hết)
+        chief_NPC_interaction chief_NPC_interaction_script_reference = chief_bird.GetComponent<chief_NPC_interaction>();
+        if (chief_NPC_interaction_script_reference.completedinteraction && Time.time >= nextFireTime)
+        {
+            ShootProjectile();
+            nextFireTime = Time.time + fireCooldown;
+        }
+    }
+
     IEnumerator DestroyProjectileAfterDistance(GameObject projectile)
     {
         float traveledDistance = 0f;
